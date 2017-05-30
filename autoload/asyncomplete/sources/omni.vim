@@ -34,10 +34,23 @@ function! asyncomplete#sources#omni#completor(opt, ctx) abort
 endfunction
 
 function! s:convert_omnifunc_result(_, match) abort
+  let width = &columns
+  let word = ''
   if type(a:match) == type({})
-    return {"word": a:match["word"], "dup": 1, "icase": 1, "menu": "[omni]"}
+    let word = s:trim(a:match["word"], width)
   else
-    return {"word": a:match, "dup": 1, "icase": 1, "menu": "[omni]"}
+    let word = s:trim(a:match, width)
+  endif
+  return {"word": word, "dup": 1, "icase": 1, "menu": "[omni]"}
+endfunction
+
+function! s:trim(word, length) abort
+  let ellipsis = '...'
+  let ellipsis_length = strwidth(ellipsis)
+  if strwidth(a:word) + ellipsis_length > a:length
+    return a:word[0:(a:length - ellipsis_length)].ellipsis
+  else
+    return a:word
   endif
 endfunction
 
