@@ -41,7 +41,7 @@ function! s:convert_omnifunc_result(_, match) abort
   else
     let word = s:trim(a:match, width)
   endif
-  return {"word": word, "dup": 1, "icase": 1, "menu": "[omni]"}
+  return {"word": word, "dup": 0, "icase": 1, "menu": "[omni]"}
 endfunction
 
 function! s:trim(word, length) abort
