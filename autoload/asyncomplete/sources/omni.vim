@@ -5,17 +5,20 @@ let g:loaded_autoload_asyncomplete_sources_omni = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
+let s:source_options = {}
+
 function! asyncomplete#sources#omni#get_source_options(opts)
-  return extend(extend({}, a:opts), {
+  let s:source_options = extend(extend({}, a:opts), {
   \ 'refresh_pattern': '\v(\k+|\.)$',
   \ })
+  return s:source_options
 endfunction
 
 function! asyncomplete#sources#omni#completor(opt, ctx) abort
   let l:col = a:ctx['col']
   let l:typed = a:ctx['typed']
 
-  let l:kw = matchstr(l:typed, '\v\S+$')
+  let l:kw = matchstr(l:typed, s:source_options['refresh_pattern'])
   let l:kwlen = len(l:kw)
   if l:kwlen < 1
     return
@@ -41,7 +44,7 @@ function! s:convert_omnifunc_result(_, match) abort
   else
     let word = s:trim(a:match, width)
   endif
-  return {"word": word, "dup": 1, "icase": 1, "menu": "[omni]"}
+  return {"word": word, "dup": 0, "icase": 1, "menu": "[omni]"}
 endfunction
 
 function! s:trim(word, length) abort
