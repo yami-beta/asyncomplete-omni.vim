@@ -7,7 +7,7 @@ set cpo&vim
 
 function! asyncomplete#sources#omni#get_source_options(opts)
   return extend(extend({}, a:opts), {
-  \ 'refresh_pattern': '\(\k\+$\|\.$\)',
+  \ 'refresh_pattern': '\v(\k+|\.)$',
   \ })
 endfunction
 
