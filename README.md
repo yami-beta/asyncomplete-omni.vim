@@ -1,4 +1,4 @@
-# asynccomplete-omni.vim
+# asyncomplete-omni.vim
 
 Omni completion source for [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
 
