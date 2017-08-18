@@ -32,13 +32,24 @@ endfunction
 
 function! s:convert_omnifunc_result(_, match) abort
   let width = &columns
+
+  " 'word' is inserted when it's selected
   let word = ''
+  " 'abbr' is showen instead of 'word'
+  let abbr = ''
   if type(a:match) == type({})
     let word = s:trim(a:match["word"], width)
+    let abbr = s:trim(a:match["abbr"], width)
   else
     let word = s:trim(a:match, width)
   endif
-  return {"word": word, "dup": 0, "icase": 1, "menu": "[omni]"}
+
+  let completion_item = {"word": word, "dup": 0, "icase": 1, "menu": "[omni]"}
+  if abbr !=# ''
+    let completion_item["abbr"] = abbr
+  endif
+
+  return completion_item
 endfunction
 
 function! s:trim(word, length) abort
