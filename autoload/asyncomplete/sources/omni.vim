@@ -39,7 +39,7 @@ function! s:convert_omnifunc_result(_, match) abort
   let abbr = ''
   if type(a:match) == type({})
     let word = s:trim(a:match["word"], width)
-    let abbr = s:trim(a:match["abbr"], width)
+    let abbr = s:trim(get(a:match, "abbr", ""), width)
   else
     let word = s:trim(a:match, width)
   endif
