@@ -24,7 +24,7 @@ function! asyncomplete#sources#omni#completor(opt, ctx) abort
     let l:startcol = l:col
   endif
 
-  let omnifunc_matches = Omnifunc_ref(0, l:typed[l:startcol:l:col])
+  let omnifunc_matches = Omnifunc_ref(0, l:typed[l:startcol + 1:l:col])
   let l:matches = map(copy(omnifunc_matches), function('s:convert_omnifunc_result'))
 
   call asyncomplete#complete(a:opt['name'], a:ctx, l:startcol + 1, l:matches)
