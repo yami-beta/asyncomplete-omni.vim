@@ -20,4 +20,8 @@ call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 \  }))
 ```
 
-> Note: HTML is blacklisted above because Vim's default `omnifunc` repositions the cursor leading to quirky behaviour. You can reenable if you are using a more appropriate `omnifunc`.
+## Note
+
+If `omnifunc` change cursor position, `asyncomplete-omni.vim` does not work correctly.
+
+For example, HTML is blacklisted above because Vim's default `omnifunc` repositions the cursor leading to quirky behaviour. You can reenable if you are using a more appropriate `omnifunc`.
