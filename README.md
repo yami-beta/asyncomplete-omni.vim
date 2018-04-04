@@ -24,7 +24,7 @@ call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 
 If `omnifunc` change cursor position, `asyncomplete-omni.vim` does not work correctly.
 
-For example, c, cpp, HTML is blacklisted above because Vim's default `omnifunc` repositions the cursor leading to quirky behaviour. You can reenable if you are using a more appropriate `omnifunc`.
+For example, c, cpp, HTML are blacklisted above because Vim's default `omnifunc` repositions the cursor leading to quirky behaviour. You can reenable if you are using a more appropriate `omnifunc`.
 
 ### Not work correctly
 
