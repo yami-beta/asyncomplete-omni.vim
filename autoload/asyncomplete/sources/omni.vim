@@ -5,28 +5,39 @@ let g:loaded_autoload_asyncomplete_sources_omni = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! asyncomplete#sources#omni#get_source_options(opts)
-  return extend(extend({}, a:opts), {
-  \ 'refresh_pattern': '\v(\k+|\.)$',
-  \ })
+function! asyncomplete#sources#omni#get_source_options(opts) abort
+  return extend({
+        \ 'refresh_pattern': '\%(\k\|\.\)',
+        \}, a:opts)
 endfunction
 
 function! asyncomplete#sources#omni#completor(opt, ctx) abort
-  let l:col = a:ctx['col']
-  let l:typed = a:ctx['typed']
+  try
+    let l:col = a:ctx['col']
+    let l:typed = a:ctx['typed']
 
-  let Omnifunc_ref = function(&omnifunc)
-  let l:startcol = Omnifunc_ref(1, '')
-  if l:startcol < 0
-    return
-  endif
-  if l:startcol > l:col
-    let l:startcol = l:col
-  endif
+    let l:startcol = s:safe_omnifunc(1, '')
+    if l:startcol < 0
+      return
+    elseif l:startcol > l:col
+      let l:startcol = l:col
+    endif
+    let l:base = l:typed[l:startcol : l:col]
+    let l:matches = s:safe_omnifunc(0, l:base)
+    call asyncomplete#complete(a:opt['name'], a:ctx, l:startcol + 1, l:matches)
+  catch
+    call asyncomplete#log('omni', 'error', v:exception)
+  endtry
+endfunction
 
-  let l:matches = Omnifunc_ref(0, l:typed[l:startcol:l:col])
 
-  call asyncomplete#complete(a:opt['name'], a:ctx, l:startcol + 1, l:matches)
+function! s:safe_omnifunc(...) abort
+  let cursor = getpos('.')
+  try
+    return call(&omnifunc, a:000)
+  finally
+    call setpos('.', cursor)
+  endtry
 endfunction
 
 
