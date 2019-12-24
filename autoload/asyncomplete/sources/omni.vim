@@ -34,10 +34,18 @@ endfunction
 function! s:safe_omnifunc(...) abort
   let cursor = getpos('.')
   try
-    return call(&omnifunc, a:000)
+    if &omnifunc == 'v:lua.vim.lsp.omnifunc'
+      return s:call_nvim_lsp_omnifunc(a:1, a:2)
+    elseif
+      return call(&omnifunc, a:000)
+    endif
   finally
     call setpos('.', cursor)
   endtry
+endfunction
+
+function! s:call_nvim_lsp_omnifunc(a:fundstart, a:base) abort
+  return v:lua.vim.lsp.omnifunc(a:findstart, a:base)
 endfunction
 
 
