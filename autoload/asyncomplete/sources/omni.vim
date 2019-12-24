@@ -35,7 +35,7 @@ function! s:safe_omnifunc(...) abort
   let cursor = getpos('.')
   try
     if &omnifunc == 'v:lua.vim.lsp.omnifunc'
-      return s:call_nvim_lsp_omnifunc(a:1, a:2)
+      return v:lua.vim.lsp.omnifunc(a:1, a:2)
     elseif
       return call(&omnifunc, a:000)
     endif
@@ -44,7 +44,7 @@ function! s:safe_omnifunc(...) abort
   endtry
 endfunction
 
-function! s:call_nvim_lsp_omnifunc(a:fundstart, a:base) abort
+function! s:call_nvim_lsp_omnifunc(findstart, base) abort
   return v:lua.vim.lsp.omnifunc(a:findstart, a:base)
 endfunction
 
