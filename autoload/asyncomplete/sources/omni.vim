@@ -48,7 +48,7 @@ endfunction
 
 function! s:append_kind(key, val) abort
   if type(a:val) == v:t_string
-    return { 'word': a:val, 'menu': '[omni]' }
+    return { 'word': a:val, 'kind': 'o' }
   endif
 
   let a:val['kind'] = 'o'
