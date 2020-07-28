@@ -51,13 +51,7 @@ function! s:append_label(key, val) abort
     return { 'word': a:val, 'menu': '[omni]' }
   endif
 
-  let l:menu = get(a:val, 'menu', '')
-  if l:menu == ''
-    let l:menu = '[omni]'
-  else
-    let l:menu = '[omni] ' . l:menu
-  endif
-  let a:val['menu'] = l:menu
+  let a:val['kind'] = 'o'
   return a:val
 endfunction
 
