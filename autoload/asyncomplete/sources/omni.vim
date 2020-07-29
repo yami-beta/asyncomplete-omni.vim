@@ -9,7 +9,7 @@ function! asyncomplete#sources#omni#get_source_options(opts) abort
   return extend({
         \ 'refresh_pattern': '\%(\k\|\.\)',
         \ 'config': {
-        \   'show_source_label': 1
+        \   'show_source_kind': 1
         \ }
         \}, a:opts)
 endfunction
@@ -27,8 +27,8 @@ function! asyncomplete#sources#omni#completor(opt, ctx) abort
     endif
     let l:base = l:typed[l:startcol : l:col]
     let l:matches = s:safe_omnifunc(0, l:base)
-    if a:opt['config']['show_source_label']
-      let l:matches = map(copy(l:matches), function('s:append_label'))
+    if a:opt['config']['show_source_kind']
+      let l:matches = map(copy(l:matches), function('s:append_kind'))
     endif
     call asyncomplete#complete(a:opt['name'], a:ctx, l:startcol + 1, l:matches)
   catch
@@ -46,9 +46,9 @@ function! s:safe_omnifunc(...) abort
   endtry
 endfunction
 
-function! s:append_label(key, val) abort
+function! s:append_kind(key, val) abort
   if type(a:val) == v:t_string
-    return { 'word': a:val, 'menu': '[omni]' }
+    return { 'word': a:val, 'kind': 'o' }
   endif
 
   let a:val['kind'] = 'o'
